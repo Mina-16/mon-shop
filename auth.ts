@@ -8,12 +8,10 @@ import { authConfig } from "@/auth.config";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
+  session: { strategy: "database" }, // ← هنا فقط
   providers: [
     Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
+      credentials: { email: {}, password: {} },
       async authorize(credentials) {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
@@ -21,11 +19,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!email || !password) return null;
 
         const user = await prisma.user.findUnique({ where: { email } });
-
         if (!user || !user.password) return null;
 
         const isCorrectPassword = await bcrypt.compare(password, user.password);
-
         if (!isCorrectPassword) return null;
 
         return {
