@@ -8,7 +8,8 @@ import { authConfig } from "@/auth.config";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "database" }, // ← هنا فقط
+  session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
@@ -33,4 +34,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = (user as any).role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        (session.user as any).role = token.role;
+      }
+      return session;
+    },
+  },
 });

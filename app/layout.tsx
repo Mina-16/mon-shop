@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@uploadthing/react/styles.css";
+
 import {
   Geist,
   Geist_Mono,
@@ -8,7 +10,7 @@ import {
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/navbar";
+// import Navbar from "@/components/navbar";
 import CartHydrator from "@/components/cart-hydrator";
 import AuthProvider from "@/providers/session-provider";
 
@@ -54,7 +56,7 @@ export default function RootLayout({
         )}
       >
         <AuthProvider>
-        <Navbar />
+        {/* <Navbar /> */}
 
         <CartHydrator />
         <main className="flex-1">

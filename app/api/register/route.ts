@@ -39,11 +39,11 @@ export async function POST(req: Request) {
 
     return Response.json(user);
 
-  } catch (error) {
-    console.log(error);
-
+} catch (error) {
+    console.log(JSON.stringify(error, null, 2));
+    
     return Response.json(
-      { error: "Something went wrong" },
+      { error: String(error) },
       { status: 500 }
     );
   }

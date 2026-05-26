@@ -10,23 +10,10 @@ export const authConfig: NextAuthConfig = {
     }),
     Credentials({
       credentials: { email: {}, password: {} },
-      authorize: async () => null, // ← فارغ دائماً هنا
+      authorize: async () => null,
     }),
   ],
-
   pages: {
     signIn: "/login",
   },
-
-  callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
-        (session.user as any).role = (user as any).role ?? "USER";
-      }
-      return session;
-    },
-  },
-
-  secret: process.env.AUTH_SECRET,
-  // ← لا session strategy هنا
 };

@@ -6,7 +6,7 @@ import ProductsGrid from "@/components/products-grid";
 export default function HomePage() {
   return (
     <main>
-      {/* <Navbar /> */}
+      <Navbar />
 
       <Hero />
 

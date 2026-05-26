@@ -1,33 +1,23 @@
-export default function LoginPage() {
+import { LoginForm } from "@/components/auth/login-form";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session?.user) {
+    redirect("/");
+  }
+
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-3xl border bg-card p-8 shadow-xl">
-
-        <h1 className="mb-6 text-center text-3xl font-bold">
-          Login
-        </h1>
-
-        <form className="space-y-5">
-
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full rounded-2xl border bg-background px-4 py-3"
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full rounded-2xl border bg-background px-4 py-3"
-          />
-
-          <button
-            className="w-full rounded-2xl bg-primary py-3 font-medium text-white"
-          >
-            Login
-          </button>
-        </form>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground">مرحباً بعودتك</h1>
+          <p className="text-muted-foreground mt-2">سجل دخولك إلى Nova Shop</p>
+        </div>
+        <LoginForm />
       </div>
-    </main>
+    </div>
   );
 }
